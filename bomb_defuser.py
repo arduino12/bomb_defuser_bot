@@ -128,18 +128,20 @@ class BombDefuser(object):
             return 4
         return -1  # error
 
+    def solve_complex_wires(self):
+        return [w[1:] if [0, 1, self._is_even_serial_number(), 'PAR' in self._connectors, self._battery_count >= 2][int(w[0])] else ' ' for w in COMPLEX_WIRES]
+
     def solve_password(self, charsets):
         if isinstance(charsets, str):
             charsets = [charsets]
         return [word for word in WORDS if
                 all(word[i] in charset for i, charset in enumerate(charsets))]
 
-    def solve_weird_symbols(self, symbols):
-        return set(map(lambda allSymbolsInOrder: ''.join([symbolInOrder[0] for symbolInOrder in sorted([(symbol, allSymbolsInOrder.index(symbol)) for symbol in symbols], key=lambda s: s[1])]),
-                       [allSymbolsInOrder for allSymbolsInOrder in SYMBOLS_IN_ORDERS if all(symbol in allSymbolsInOrder for symbol in symbols)]))
-
-    def solve_complex_wires(self):
-        return [w[1:] if [0, 1, self._is_even_serial_number(), 'PAR' in self._connectors, self._battery_count >= 2][int(w[0])] else ' ' for w in COMPLEX_WIRES]
+    def solve_symbols(self, symbols):
+        return [b for k in SYMBOLS_IN_ORDERS for b in k if
+            set(symbols) & set(k) == set(symbols) and b in symbols]
+        # return set(map(lambda allSymbolsInOrder: ''.join([symbolInOrder[0] for symbolInOrder in sorted([(symbol, allSymbolsInOrder.index(symbol)) for symbol in symbols], key=lambda s: s[1])]),
+                       # [allSymbolsInOrder for allSymbolsInOrder in SYMBOLS_IN_ORDERS if all(symbol in allSymbolsInOrder for symbol in symbols)]))
 
     def __str__(self):
         return f'''
@@ -226,7 +228,7 @@ async def reply_symbols(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
 
     if (query.data == 'Done'):
-        reply = bomb_defuser.solve_weird_symbols(context.user_data['symbols'])
+        reply = bomb_defuser.solve_symbols(context.user_data['symbols'])
         await query.edit_message_text('\n'.join(reply) or "לא מצאתי :(")
         return MENU_STATE
     else:
