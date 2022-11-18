@@ -159,7 +159,7 @@ MENU_KEYBOARD = split_list([MENU_KEY_SIMPLE_WIRES, MENU_KEY_COMPLEX_WIRES, MENU_
 MENU_MARKUP = ReplyKeyboardMarkup(MENU_KEYBOARD, one_time_keyboard=True)
 
 
-def getInlineKeyboardMarkup(keys, markedKeys=[]):
+def get_inline_keyboard_markup(keys, markedKeys=[]):
     keyboard = [list(map(lambda n: InlineKeyboardButton(
         '[' + n + ']' if n in markedKeys else n, callback_data=n), list(x))) for x in keys]
 
@@ -176,7 +176,7 @@ def get_callback_handler(callback, keyboard):
 
 async def handle_start(update, context):
     context.user_data['menu'] = MENU_KEY_NEW_BOMB
-    markup = getInlineKeyboardMarkup(SERIAL_KEYBOARD)
+    markup = get_inline_keyboard_markup(SERIAL_KEYBOARD)
     bomb_defuser.reset()
 
     await update.message.reply_text('אעאעאע!', reply_markup=MENU_MARKUP)
@@ -196,18 +196,18 @@ async def handle_menu(update, context):
 
     if menu == MENU_KEY_WORDS:
         reply = 'הכניסו רצפי אותיות מופרדים ברווח'
-        markup = getInlineKeyboardMarkup(HEBREW_KEYBOARD)
+        markup = get_inline_keyboard_markup(HEBREW_KEYBOARD)
     elif menu == MENU_KEY_COMPLEX_WIRES:
         reply = 'חיתכו את החוטים המופיעים בטבלה'
-        markup = getInlineKeyboardMarkup(
+        markup = get_inline_keyboard_markup(
             split_list(bomb_defuser.solve_complex_wires()))
         ret = MENU_STATE
     elif menu == MENU_KEY_SIMPLE_WIRES:
         reply = 'לחצו על החוטים מלמעלה למטה'
-        markup = getInlineKeyboardMarkup(WIRES_KEYBOARD)
+        markup = get_inline_keyboard_markup(WIRES_KEYBOARD)
     elif menu == MENU_KEY_SYMBOLS_WORDS:
         reply = 'לחצו על הצורות שמופיעות לכם'
-        markup = getInlineKeyboardMarkup(SYMBOLS_KEYBOARD)
+        markup = get_inline_keyboard_markup(SYMBOLS_KEYBOARD)
     else:
         reply = '?'
 
@@ -230,7 +230,7 @@ async def reply_symbols(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             context.user_data['symbols'].append(query.data)
 
-    markup = getInlineKeyboardMarkup(
+    markup = get_inline_keyboard_markup(
         SYMBOLS_KEYBOARD, context.user_data['symbols'])
     reply = 'לחצו על הצורות שמופיעות לכם'
     await query.edit_message_text(reply, reply_markup=markup)
@@ -242,7 +242,7 @@ async def reply_serial(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     bomb_defuser._serial_number = query.data
-    markup = getInlineKeyboardMarkup(BATTERIES_KEYBOARD)
+    markup = get_inline_keyboard_markup(BATTERIES_KEYBOARD)
     await query.edit_message_text('כמה סוללות?', reply_markup=markup)
 
     return REPLY_INIT_STATE
@@ -292,7 +292,7 @@ async def reply_batteries_count(update: Update, context: ContextTypes.DEFAULT_TY
         count = 0
 
     bomb_defuser._battery_count = count
-    markup = getInlineKeyboardMarkup(INDICATORS_KEYBOARD)
+    markup = get_inline_keyboard_markup(INDICATORS_KEYBOARD)
     await query.edit_message_text('בחרו את האינדיקטורים שיש על הפצצה', reply_markup=markup)
 
     return REPLY_INIT_STATE
@@ -302,7 +302,7 @@ async def reply_indicators(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
-    markup = getInlineKeyboardMarkup(CONNECTORS_KEYBOARD)
+    markup = get_inline_keyboard_markup(CONNECTORS_KEYBOARD)
     if (query.data == 'סיימתי'):
         await query.edit_message_text('בחרו את החיבורים שיש על הפצצה', reply_markup=markup)
         return REPLY_INIT_STATE
