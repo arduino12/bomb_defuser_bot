@@ -8,6 +8,8 @@
 #
 # https://github.com/python-telegram-bot/python-telegram-bot
 # pip install python-telegram-bot --pre
+#
+# https://steamcommunity.com/app/341800/discussions/0/481115363870829238/
 
 from telegram.ext import (
     Application,
@@ -18,7 +20,7 @@ from telegram.ext import (
     MessageHandler,
     filters,
 )
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton, Update
+from telegram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, Update
 
 
 def split_list(l, index=4):
@@ -289,7 +291,7 @@ async def reply_batteries_count(update: Update, context: ContextTypes.DEFAULT_TY
 
     bomb_defuser._battery_count = count
     markup = get_inline_keyboard_markup(INDICATORS_KEYBOARD)
-    await query.edit_message_text('בחרו את האינדיקטורים שיש על הפצצה', reply_markup=markup)
+    await query.edit_message_text('בחרו את החיוויים שיש על הפצצה', reply_markup=markup)
 
     return REPLY_INIT_STATE
 
@@ -321,21 +323,7 @@ async def reply_connectors(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return REPLY_INIT_STATE
 
 
-# async def done(update, context):
-    # user_data = context.user_data
-    # if 'menu' in user_data:
-    # del user_data['menu']
-
-    # await update.message.reply_text(
-    # f'I learned these facts about you: {facts_to_str(user_data)}Until next time!',
-    # reply_markup=ReplyKeyboardRemove(),
-    # )
-
-    # user_data.clear()
-    # return ConversationHandler.END
-
-
-def main(args):
+def main():
     application = Application.builder().token(TOKEN).build()
 
     conv_handler = ConversationHandler(
@@ -370,35 +358,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    import argparse
-    parser = argparse.ArgumentParser(description='Bomb Defuser')
-    # parser.add_argument('--token', help='Telegram bot token')
-    main(parser.parse_args())
-
-# https://steamcommunity.com/app/341800/discussions/0/481115363870829238/
-# Ѽ Omega with titlo diacritic
-# © Copyright
-# Ӭ E
-# Ҩ Ha
-# Ҋ I (YEE)
-# ϗ Kai
-# ϰ Kappa
-# Ԇ Komi Dzje
-# Ϙ Koppa
-# Ѯ Ksi
-# ƛ Lambda
-# Ω Omega
-# ¶ Pilcrow
-# ψ Psi
-# ¿ Query
-# Ϭ Shima
-# Ͼ Sigma
-# Ͽ Reversed Sigma
-# ★ Dark Star
-# ☆ White Star
-# ټ Teh
-# ҂ Thousand
-# Ѣ Yat
-# Ѭ Big Yus
-# Ѧ Little Yus
-# Җ Zhe
+    main()
