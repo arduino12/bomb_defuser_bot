@@ -11,16 +11,22 @@
 #
 # https://steamcommunity.com/app/341800/discussions/0/481115363870829238/
 
-from telegram.ext import (
-    Application,
-    CommandHandler,
-    ContextTypes,
-    CallbackQueryHandler,
-    ConversationHandler,
-    MessageHandler,
-    filters,
-)
-from telegram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, Update
+while(1):
+    try:
+        from telegram.ext import (
+            Application,
+            CommandHandler,
+            ContextTypes,
+            CallbackQueryHandler,
+            ConversationHandler,
+            MessageHandler,
+            filters,
+        )
+        from telegram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, Update
+    except:
+        os.system('pip install python-telegram-bot --pre')
+        continue
+    break
 
 
 def split_list(l, index=4):
@@ -55,7 +61,7 @@ SERIAL_KEYBOARD = split_list(['A1', 'A2', 'B1', 'B2'], 2)
 WIRES_KEYBOARD = split_list(
     ['אדום', 'צהוב', 'כחול', 'לבן', 'שחור'], 5) + [['יאללה']]
 
-BATTERIES_KEYBOARD = split_list(list(range(8)))
+BATTERIES_KEYBOARD = split_list(range(8))
 
 CONNECTORS_KEYBOARD = split_list(
     ['DVI', 'PAR', 'PS2', 'RJ45', 'SER', 'RCA'], 3) + [['Done']]
@@ -157,9 +163,9 @@ MENU_KEYBOARD = split_list([MENU_KEY_SIMPLE_WIRES, MENU_KEY_COMPLEX_WIRES, MENU_
 MENU_MARKUP = ReplyKeyboardMarkup(MENU_KEYBOARD, one_time_keyboard=True)
 
 
-def get_inline_keyboard_markup(keys, markedKeys=[]):
+def get_inline_keyboard_markup(keys, marked_keys=[]):
     keyboard = [list(map(lambda n: InlineKeyboardButton(
-        '[' + n + ']' if n in markedKeys else n, callback_data=n), list(x))) for x in keys]
+        f'[{n}]' if n in marked_keys else n, callback_data=n), list(x))) for x in keys]
 
     return InlineKeyboardMarkup(keyboard, one_time_keyboard=False)
 
@@ -193,7 +199,7 @@ async def handle_menu(update, context):
     ret = REPLY_STATE
 
     if menu == MENU_KEY_WORDS:
-        reply = 'הכניסו רצפי אותיות מופרדים ברווח'
+        reply = 'לחצו על האותיות עבור כל גליל מימין לשמאל'
         markup = get_inline_keyboard_markup(HEBREW_KEYBOARD)
     elif menu == MENU_KEY_COMPLEX_WIRES:
         reply = 'חיתכו את החוטים המופיעים בטבלה'
@@ -204,7 +210,7 @@ async def handle_menu(update, context):
         reply = 'לחצו על החוטים מלמעלה למטה'
         markup = get_inline_keyboard_markup(WIRES_KEYBOARD)
     elif menu == MENU_KEY_SYMBOLS_WORDS:
-        reply = 'לחצו על הצורות שמופיעות לכם'
+        reply = 'לחצו על ארבעת הסימנים'
         markup = get_inline_keyboard_markup(SYMBOLS_KEYBOARD)
     else:
         reply = '?'
@@ -230,7 +236,7 @@ async def reply_symbols(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     markup = get_inline_keyboard_markup(
         SYMBOLS_KEYBOARD, context.user_data['symbols'])
-    reply = 'לחצו על הצורות שמופיעות לכם'
+    reply = 'לחצו על ארבעת הסימנים'
     await query.edit_message_text(reply, reply_markup=markup)
 
     return REPLY_STATE
