@@ -45,12 +45,8 @@ SYMBOLS_IN_ORDERS = [
     "ϘѦƛϰѬϗϿ",
 ]
 
-SYMBOLS_KEYBOARD = [['æ', 'Ѽ', 'Ҋ', 'Ͽ', '★'],
-                    ['ϰ', 'Ϭ', 'Ѧ', 'Җ', 'Ѯ'],
-                    ['Ѣ', 'Ԇ', 'Ϙ', 'Ͼ', 'ټ'],
-                    ['Ҩ', '҂', 'Ω', 'Ӭ', '©'],
-                    ['ƛ', 'ψ', '¿', 'ϗ', 'Ѭ'],
-                    ['¶', '☆', 'Done']]
+SYMBOLS_KEYBOARD = split_list(
+    list(set(''.join(SYMBOLS_IN_ORDERS))), 5) + [['Done']]
 
 SERIAL_KEYBOARD = split_list(['A1', 'A2', 'B1', 'B2'], 2)
 
