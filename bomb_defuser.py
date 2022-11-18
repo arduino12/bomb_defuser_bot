@@ -6,6 +6,9 @@
 #
 # https://github.com/arduino12/ 2022/10/21
 #
+# https://github.com/python-telegram-bot/python-telegram-bot
+# pip install python-telegram-bot --pre
+
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -143,9 +146,6 @@ class BombDefuser(object):
 
 bomb_defuser = BombDefuser()
 
-
-# https://github.com/python-telegram-bot/python-telegram-bot
-# pip install python-telegram-bot --pre
 
 TOKEN = '5587993580:AAFx7dur_bG9zP_RSN1cQhQnbyyedGEzT04'  # t.me/BombDefuserBot
 MENU_STATE, REPLY_STATE, REPLY_INIT_STATE = range(3)
