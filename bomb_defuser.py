@@ -25,7 +25,7 @@ while(1):
         )
         from telegram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, Update
     except:
-        os.system('pip install python-telegram-bot --pre')
+        os.system('pip3 install python-telegram-bot --pre')
         continue
     break
 
