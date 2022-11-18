@@ -10,6 +10,7 @@
 # pip install python-telegram-bot --pre
 #
 # https://steamcommunity.com/app/341800/discussions/0/481115363870829238/
+import os
 
 while(1):
     try:
