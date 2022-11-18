@@ -185,7 +185,7 @@ async def handle_start(update, context):
     bomb_defuser.reset()
 
     await update.message.reply_text('אעאעאע!', reply_markup=MENU_MARKUP)
-    await update.message.reply_text('מה המספר הסידורי?', reply_markup=markup)
+    await update.message.reply_text('לחצו על המספר הסידורי?', reply_markup=markup)
 
     return REPLY_INIT_STATE
 
@@ -248,7 +248,7 @@ async def reply_serial(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     bomb_defuser._serial_number = query.data
     markup = get_inline_keyboard_markup(BATTERIES_KEYBOARD)
-    await query.edit_message_text('כמה סוללות?', reply_markup=markup)
+    await query.edit_message_text('לחצו על מספר הסוללות שבצדי הפצצה?', reply_markup=markup)
 
     return REPLY_INIT_STATE
 
@@ -298,7 +298,7 @@ async def reply_batteries_count(update: Update, context: ContextTypes.DEFAULT_TY
 
     bomb_defuser._battery_count = count
     markup = get_inline_keyboard_markup(INDICATORS_KEYBOARD)
-    await query.edit_message_text('בחרו את החיוויים שיש על הפצצה', reply_markup=markup)
+    await query.edit_message_text('לחצו על החיוויים שיש על הפצצה', reply_markup=markup)
 
     return REPLY_INIT_STATE
 
@@ -309,7 +309,7 @@ async def reply_indicators(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     markup = get_inline_keyboard_markup(CONNECTORS_KEYBOARD)
     if (query.data == 'סיימתי'):
-        await query.edit_message_text('בחרו את החיבורים שיש על הפצצה', reply_markup=markup)
+        await query.edit_message_text('לחצו על החיבורים שיש על הפצצה', reply_markup=markup)
         return REPLY_INIT_STATE
     else:
         bomb_defuser._indicators.append(query.data)
